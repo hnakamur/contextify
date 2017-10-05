@@ -34,13 +34,14 @@ func main() {
 	}()
 
 	s := http.Server{Addr: *address}
-	err := contextify.Contextify(func() error {
+	run := contextify.Contextify(func() error {
 		defer log.Printf("exiting run function")
 		return s.ListenAndServe()
 	}, func() error {
 		defer log.Printf("exiting cancel function")
 		return s.Shutdown(context.Background())
-	}, nil)(ctx)
+	}, nil)
+	err := run(ctx)
 	if err != nil {
 		log.Printf("got error, %v", err)
 	}

@@ -57,7 +57,6 @@ func main() {
 		log.Printf("exiting cancel func")
 		return nil
 	}, nil)
-
 	err := run(ctx)
 	if err != nil {
 		log.Printf("got error from run, %v", err)

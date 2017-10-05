@@ -26,11 +26,12 @@ func ExampleContextify() {
 		w.Write([]byte("Hello, example http server\n"))
 	})
 	s := http.Server{Addr: ":8080"}
-	err := contextify.Contextify(func() error {
+	run := contextify.Contextify(func() error {
 		return s.ListenAndServe()
 	}, func() error {
 		return s.Shutdown(context.Background())
-	}, nil)(ctx)
+	}, nil)
+	err := run(ctx)
 	if err != nil {
 		log.Printf("got error, %v", err)
 	}
